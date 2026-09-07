@@ -1,62 +1,45 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Alert,
   Animated,
   ImageBackground,
+  Pressable,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Pressable
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 
-export default function RegisterScreen({
-  onNavigateToLogin,
+export default function DriverLoginScreen({
   onNavigateToDriverRegister,
+  onNavigateToPassengerLogin,
 }) {
-  // Animation
   const scale = useRef(new Animated.Value(1)).current;
 
-  // Input states
-  const [name, setName] = useState("");
+  const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  // Password visibility
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Save function
-  const handlesave = () => {
-    if (!name.trim()) {
-      Alert.alert("Missing Field", "Please enter your full name.");
+  const handleSave = () => {
+    if (!emailOrPhone.trim() || !password) {
+      Alert.alert(
+        "Missing Field",
+        "Please enter your Driver Email or Phone and Password.",
+      );
       return;
     }
 
-    if (!password) {
-      Alert.alert("Missing Field", "Please enter a password.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match!");
-      return;
-    }
-
-    console.log({
-      name,
-      password,
-    });
+    console.log({ role: "driver", emailOrPhone, password });
 
     Alert.alert(
-      "Registered!",
-      "Your information has been registered successfully.",
+      "Driver Log in Successfully!",
+      "Welcome back, Driver! Ready to accept rides.",
     );
   };
 
-  // Submit animation
   const handleSubmit = () => {
     Animated.sequence([
       Animated.timing(scale, {
@@ -64,14 +47,13 @@ export default function RegisterScreen({
         duration: 100,
         useNativeDriver: true,
       }),
-
       Animated.timing(scale, {
         toValue: 1,
         duration: 100,
         useNativeDriver: true,
       }),
     ]).start(() => {
-      handlesave();
+      handleSave();
     });
   };
 
@@ -81,22 +63,23 @@ export default function RegisterScreen({
       resizeMode="cover"
       style={styles.image}
     >
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.form}>
-          {/* Full Name */}
-          <Text style={styles.label}>Full Name</Text>
+          <Text style={styles.headerTitle}>Driver Portal</Text>
+          <Text style={styles.headerSubtitle}>Log in to start driving</Text>
 
+          <Text style={styles.label}>Driver Email or Phone</Text>
           <TextInput
             style={styles.input}
-            placeholder="Jose Delacruz"
+            placeholder="driver@example.com / 0917..."
             placeholderTextColor="#ccc"
-            onChangeText={setName}
-            value={name}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            onChangeText={setEmailOrPhone}
+            value={emailOrPhone}
           />
 
-          {/* Password */}
           <Text style={styles.label}>Password</Text>
-
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.passwordInput}
@@ -120,74 +103,40 @@ export default function RegisterScreen({
             </Pressable>
           </View>
 
-          {/* Confirm Password */}
-          <Text style={styles.label}>Confirm Password</Text>
-
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Confirm Password"
-              placeholderTextColor="#ccc"
-              onChangeText={setConfirmPassword}
-              value={confirmPassword}
-              secureTextEntry={!showConfirmPassword}
-            />
-
-            <Pressable
-              style={styles.eyeButton}
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-              hitSlop={10}
-            >
-              {showConfirmPassword ? (
-                <Eye color="white" size={20} />
-              ) : (
-                <EyeOff color="white" size={20} />
-              )}
-            </Pressable>
-          </View>
-
-          {/* Submit Button */}
-          <Animated.View
-            style={{
-              transform: [{ scale }],
-            }}
-          >
+          <Animated.View style={{ transform: [{ scale }] }}>
             <TouchableOpacity
               style={styles.submitBtn}
               onPress={handleSubmit}
               activeOpacity={0.8}
             >
-              <Text style={styles.fontColor}>Submit</Text>
+              <Text style={styles.fontColor}>Driver Log In</Text>
             </TouchableOpacity>
           </Animated.View>
 
-          {/* Switch to Login */}
-          {onNavigateToLogin && (
-            <TouchableOpacity
-              style={styles.switchBtn}
-              onPress={onNavigateToLogin}
-            >
-              <Text style={styles.switchText}>
-                Already have an account?{" "}
-                <Text style={styles.linkText}>Log In</Text>
-              </Text>
-            </TouchableOpacity>
-          )}
-
-          {/* Switch to Driver Registration */}
           {onNavigateToDriverRegister && (
             <TouchableOpacity
               style={styles.switchBtn}
               onPress={onNavigateToDriverRegister}
             >
               <Text style={styles.switchText}>
-                Want to earn with us?{" "}
+                New driver?{" "}
                 <Text style={styles.linkText}>Register as Driver</Text>
               </Text>
             </TouchableOpacity>
           )}
+
+          {onNavigateToPassengerLogin && (
+            <TouchableOpacity
+              style={styles.secondarySwitchBtn}
+              onPress={onNavigateToPassengerLogin}
+            >
+              <Text style={styles.secondarySwitchText}>
+                Switch to Passenger Login
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
-      </View>
+      </SafeAreaView>
     </ImageBackground>
   );
 }
@@ -195,7 +144,7 @@ export default function RegisterScreen({
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    justifyContent: "center",
+    justify: "center",
     alignItems: "center",
   },
 
@@ -206,24 +155,42 @@ const styles = StyleSheet.create({
   },
 
   form: {
-    backgroundColor: "rgba(128, 128, 128, 0.9)",
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "rgba(30, 41, 59, 0.92)",
+    padding: 22,
+    borderRadius: 12,
     gap: 10,
-    width: 300,
+    width: 320,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+  },
+
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#ffffff",
+    textAlign: "center",
+  },
+
+  headerSubtitle: {
+    fontSize: 13,
+    color: "#38bdf8",
+    textAlign: "center",
+    marginBottom: 6,
   },
 
   label: {
     color: "white",
     fontWeight: "bold",
+    fontSize: 13,
   },
 
   input: {
     borderWidth: 1,
     borderColor: "white",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 6,
     color: "white",
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
 
   passwordContainer: {
@@ -231,7 +198,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "white",
-    borderRadius: 5,
+    borderRadius: 6,
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
 
   passwordInput: {
@@ -246,21 +214,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  eyeText: {
-    fontSize: 20,
-  },
-
   fontColor: {
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
+    fontSize: 15,
   },
 
   submitBtn: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    backgroundColor: "#0284c7",
+    padding: 12,
+    borderRadius: 6,
+    marginTop: 8,
   },
 
   switchBtn: {
@@ -277,6 +242,17 @@ const styles = StyleSheet.create({
   linkText: {
     color: "#38bdf8",
     fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+
+  secondarySwitchBtn: {
+    marginTop: 8,
+    alignItems: "center",
+  },
+
+  secondarySwitchText: {
+    color: "#94a3b8",
+    fontSize: 12,
     textDecorationLine: "underline",
   },
 });
