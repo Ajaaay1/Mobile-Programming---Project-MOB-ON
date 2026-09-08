@@ -102,6 +102,10 @@ export default function DriverLoginScreen({
               )}
             </Pressable>
           </View>
+          
+          <TouchableOpacity style={styles.forgotPasswordButton} onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text style={styles.forgotPasswordText}> Forgot Password? </Text>
+          </TouchableOpacity>
 
           <Animated.View style={{ transform: [{ scale }] }}>
             <TouchableOpacity
@@ -219,6 +223,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 15,
+  },
+
+  
+  fontColor: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  forgotPasswordButton: {
+  alignSelf: 'flex-end',
+  marginTop: 6,
   },
 
   submitBtn: {

@@ -100,6 +100,10 @@ export default function LoginScreen({
             </Pressable>
           </View>
 
+          <TouchableOpacity style={styles.forgotPasswordButton} onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text style={styles.forgotPasswordText}> Forgot Password? </Text>
+          </TouchableOpacity>
+
 
           {/* Submit Button */}
           <Animated.View style={{ transform: [{ scale }] }}>
@@ -209,6 +213,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+  forgotPasswordButton: {
+  alignSelf: 'flex-end',
+  marginTop: 6,
+  },
+
+forgotPasswordText: {
+  color: '#38bdf8',
+  fontSize: 14,
+  fontWeight: 'bold',
+  textDecorationLine: 'underline',
+},
 
   submitBtn: {
     backgroundColor: "blue",
