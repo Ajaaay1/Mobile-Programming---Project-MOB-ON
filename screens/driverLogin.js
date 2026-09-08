@@ -16,6 +16,7 @@ import { Eye, EyeOff } from "lucide-react-native";
 export default function DriverLoginScreen({
   onNavigateToDriverRegister,
   onNavigateToPassengerLogin,
+  onNavigateToForgotPassword,
 }) {
   const scale = useRef(new Animated.Value(1)).current;
 
@@ -23,20 +24,30 @@ export default function DriverLoginScreen({
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleForgotPassword = () => {
+    if (typeof onNavigateToForgotPassword === "function") {
+      onNavigateToForgotPassword();
+    }
+  };
+
   const handleSave = () => {
     if (!emailOrPhone.trim() || !password) {
       Alert.alert(
         "Missing Field",
-        "Please enter your Driver Email or Phone and Password.",
+        "Please enter your Driver Email or Phone and Password."
       );
       return;
     }
 
-    console.log({ role: "driver", emailOrPhone, password });
+    console.log({
+      role: "driver",
+      emailOrPhone,
+      password,
+    });
 
     Alert.alert(
       "Driver Log in Successfully!",
-      "Welcome back, Driver! Ready to accept rides.",
+      "Welcome back, Driver! Ready to accept rides."
     );
   };
 
@@ -66,9 +77,14 @@ export default function DriverLoginScreen({
       <SafeAreaView style={styles.container}>
         <View style={styles.form}>
           <Text style={styles.headerTitle}>Driver Portal</Text>
-          <Text style={styles.headerSubtitle}>Log in to start driving</Text>
 
+          <Text style={styles.headerSubtitle}>
+            Log in to start driving
+          </Text>
+
+          {/* Driver Email or Phone */}
           <Text style={styles.label}>Driver Email or Phone</Text>
+
           <TextInput
             style={styles.input}
             placeholder="driver@example.com / 0917..."
@@ -79,7 +95,9 @@ export default function DriverLoginScreen({
             value={emailOrPhone}
           />
 
+          {/* Password */}
           <Text style={styles.label}>Password</Text>
+
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.passwordInput}
@@ -91,7 +109,10 @@ export default function DriverLoginScreen({
             />
 
             <Pressable
-              style={styles.eyeButton}
+              style={({ pressed }) => [
+                styles.eyeButton,
+                { opacity: pressed ? 0.5 : 1 },
+              ]}
               onPress={() => setShowPassword(!showPassword)}
               hitSlop={10}
             >
@@ -102,11 +123,18 @@ export default function DriverLoginScreen({
               )}
             </Pressable>
           </View>
-          
-          <TouchableOpacity style={styles.forgotPasswordButton} onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text style={styles.forgotPasswordText}> Forgot Password? </Text>
+
+          {/* Forgot Password */}
+          <TouchableOpacity
+            style={styles.forgotPasswordBtn}
+            onPress={handleForgotPassword}
+          >
+            <Text style={styles.forgotPasswordText}>
+              Forgot Password?
+            </Text>
           </TouchableOpacity>
 
+          {/* Driver Login */}
           <Animated.View style={{ transform: [{ scale }] }}>
             <TouchableOpacity
               style={styles.submitBtn}
@@ -117,6 +145,7 @@ export default function DriverLoginScreen({
             </TouchableOpacity>
           </Animated.View>
 
+          {/* Driver Register */}
           {onNavigateToDriverRegister && (
             <TouchableOpacity
               style={styles.switchBtn}
@@ -124,11 +153,14 @@ export default function DriverLoginScreen({
             >
               <Text style={styles.switchText}>
                 New driver?{" "}
-                <Text style={styles.linkText}>Register as Driver</Text>
+                <Text style={styles.linkText}>
+                  Register as Driver
+                </Text>
               </Text>
             </TouchableOpacity>
           )}
 
+          {/* Passenger Login */}
           {onNavigateToPassengerLogin && (
             <TouchableOpacity
               style={styles.secondarySwitchBtn}
@@ -148,12 +180,13 @@ export default function DriverLoginScreen({
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    justify: "center",
+    justifyContent: "center",
     alignItems: "center",
   },
 
   container: {
     flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -218,22 +251,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  fontColor: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 15,
+  forgotPasswordBtn: {
+    alignSelf: "flex-end",
+    marginTop: 2,
   },
 
-  
-  fontColor: {
-    color: "white",
-    textAlign: "center",
+  forgotPasswordText: {
+    color: "#38bdf8",
+    fontSize: 13,
     fontWeight: "bold",
-  },
-  forgotPasswordButton: {
-  alignSelf: 'flex-end',
-  marginTop: 6,
+    textDecorationLine: "underline",
   },
 
   submitBtn: {
@@ -241,6 +268,13 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 6,
     marginTop: 8,
+  },
+
+  fontColor: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 15,
   },
 
   switchBtn: {

@@ -16,12 +16,19 @@ export default function LoginScreen({
   onNavigateToRegister,
   onNavigateToDriverRegister,
   onNavigateToDriverLogin,
+  onNavigateToForgotPassword,
 }) {
   const scale = useRef(new Animated.Value(1)).current;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleForgotPassword = () => {
+    if (typeof onNavigateToForgotPassword === "function") {
+      onNavigateToForgotPassword();
+    }
+  };
 
   const handlesave = () => {
     if (!email.trim() || !password) {
@@ -62,6 +69,7 @@ export default function LoginScreen({
 
           {/* Email */}
           <Text style={styles.label}>Email</Text>
+
           <TextInput
             style={styles.input}
             placeholder="Email@example.com"
@@ -72,9 +80,10 @@ export default function LoginScreen({
             value={email}
           />
 
-          {/* Password input with eye button */}
-          <Text style = {styles.label}>Password</Text>
-          <View style={styles.passwordContainer}> 
+          {/* Password */}
+          <Text style={styles.label}>Password</Text>
+
+          <View style={styles.passwordContainer}>
             <TextInput
               style={styles.passwordInput}
               placeholder="Password"
@@ -87,7 +96,7 @@ export default function LoginScreen({
             <Pressable
               style={({ pressed }) => [
                 styles.eyeButton,
-                { opacity: pressed ? 0.5 : 1.0 },
+                { opacity: pressed ? 0.5 : 1 },
               ]}
               onPress={() => setShowPassword(!showPassword)}
               hitSlop={10}
@@ -100,12 +109,17 @@ export default function LoginScreen({
             </Pressable>
           </View>
 
-          <TouchableOpacity style={styles.forgotPasswordButton} onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text style={styles.forgotPasswordText}> Forgot Password? </Text>
+          {/* Forgot Password */}
+          <TouchableOpacity
+            style={styles.forgotPasswordBtn}
+            onPress={handleForgotPassword}
+          >
+            <Text style={styles.forgotPasswordText}>
+              Forgot Password?
+            </Text>
           </TouchableOpacity>
 
-
-          {/* Submit Button */}
+          {/* Login Button */}
           <Animated.View style={{ transform: [{ scale }] }}>
             <TouchableOpacity
               style={styles.submitBtn}
@@ -116,7 +130,7 @@ export default function LoginScreen({
             </TouchableOpacity>
           </Animated.View>
 
-          {/* Navigation Links */}
+          {/* Register */}
           {onNavigateToRegister && (
             <TouchableOpacity
               style={styles.switchBtn}
@@ -129,6 +143,7 @@ export default function LoginScreen({
             </TouchableOpacity>
           )}
 
+          {/* Driver Login */}
           {onNavigateToDriverLogin && (
             <TouchableOpacity
               style={styles.switchBtn}
@@ -157,6 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
 
   form: {
@@ -208,28 +224,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  fontColor: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  forgotPasswordButton: {
-  alignSelf: 'flex-end',
-  marginTop: 6,
+  forgotPasswordBtn: {
+    alignSelf: "flex-end",
+    marginTop: 2,
   },
 
-forgotPasswordText: {
-  color: '#38bdf8',
-  fontSize: 14,
-  fontWeight: 'bold',
-  textDecorationLine: 'underline',
-},
+  forgotPasswordText: {
+    color: "#38bdf8",
+    fontSize: 13,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
 
   submitBtn: {
     backgroundColor: "blue",
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
+  },
+
+  fontColor: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 
   switchBtn: {
