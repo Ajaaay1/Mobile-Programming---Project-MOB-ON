@@ -1,7 +1,6 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Alert,
-  Animated,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -18,8 +17,6 @@ export default function LoginScreen({
   onNavigateToDriverLogin,
   onNavigateToForgotPassword,
 }) {
-  const scale = useRef(new Animated.Value(1)).current;
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -38,23 +35,6 @@ export default function LoginScreen({
 
     console.log({ email, password });
     Alert.alert("Log in Successfully!", "Welcome back.");
-  };
-
-  const handleSubmit = () => {
-    Animated.sequence([
-      Animated.timing(scale, {
-        toValue: 0.85,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      handlesave();
-    });
   };
 
   return (
@@ -120,15 +100,13 @@ export default function LoginScreen({
           </TouchableOpacity>
 
           {/* Login Button */}
-          <Animated.View style={{ transform: [{ scale }] }}>
-            <TouchableOpacity
-              style={styles.submitBtn}
-              onPress={handleSubmit}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.fontColor}>Log In</Text>
-            </TouchableOpacity>
-          </Animated.View>
+          <TouchableOpacity
+            style={styles.submitBtn}
+            onPress={handlesave}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.fontColor}>Log In</Text>
+          </TouchableOpacity>
 
           {/* Register */}
           {onNavigateToRegister && (
@@ -160,6 +138,7 @@ export default function LoginScreen({
     </ImageBackground>
   );
 }
+
 
 const styles = StyleSheet.create({
   image: {

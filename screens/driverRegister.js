@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
     Alert,
-    Animated,
     ImageBackground,
     SafeAreaView,
     ScrollView,
@@ -18,9 +17,7 @@ export default function DriverRegisterScreen({
   onNavigateToLogin,
   onNavigateToPassengerRegister,
 }) {
-  const scale = useRef(new Animated.Value(1)).current;
 
-  // Input states
   const [name, setName] = useState("");
   const [midName, setMidName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,11 +28,9 @@ export default function DriverRegisterScreen({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Password visibility
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Auto-format birthdate to MM/DD/YYYY
   const handleBirthdateChange = (text) => {
     const cleaned = text.replace(/[^0-9]/g, "");
     let formatted = cleaned;
@@ -47,7 +42,6 @@ export default function DriverRegisterScreen({
     setBirthdate(formatted);
   };
 
-  // Attach license
   const handlePickLicense = () => {
     Alert.alert(
       "License Attached",
@@ -56,7 +50,6 @@ export default function DriverRegisterScreen({
     setLicense({ name: "drivers_license_front.jpg" });
   };
 
-  // Save / Validate
   const handlesave = () => {
     if (!name.trim() || !lastName.trim()) {
       Alert.alert(
@@ -120,24 +113,6 @@ export default function DriverRegisterScreen({
     );
   };
 
-  // Submit button animation
-  const handleSubmit = () => {
-    Animated.sequence([
-      Animated.timing(scale, {
-        toValue: 0.85,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      handlesave();
-    });
-  };
-
   return (
     <ImageBackground
       source={require("./mobon.jpg")}
@@ -155,7 +130,6 @@ export default function DriverRegisterScreen({
               Create an account as Driver
             </Text>
 
-            {/* First Name */}
             <Text style={styles.label}>First Name</Text>
             <TextInput
               style={styles.input}
@@ -165,7 +139,6 @@ export default function DriverRegisterScreen({
               value={name}
             />
 
-            {/* Middle Name */}
             <Text style={styles.label}>Middle Name</Text>
             <TextInput
               style={styles.input}
@@ -175,7 +148,6 @@ export default function DriverRegisterScreen({
               value={midName}
             />
 
-            {/* Last Name */}
             <Text style={styles.label}>Last Name</Text>
             <TextInput
               style={styles.input}
@@ -185,7 +157,6 @@ export default function DriverRegisterScreen({
               value={lastName}
             />
 
-            {/* Contact Info */}
             <Text style={styles.label}>Contact Info</Text>
             <TextInput
               style={styles.input}
@@ -196,7 +167,6 @@ export default function DriverRegisterScreen({
               value={contactInfo}
             />
 
-            {/* Birthdate */}
             <Text style={styles.label}>Birthdate (MM/DD/YYYY)</Text>
             <TextInput
               style={styles.input}
@@ -208,7 +178,6 @@ export default function DriverRegisterScreen({
               value={birthdate}
             />
 
-            {/* Copy of License */}
             <Text style={styles.label}>Copy of License</Text>
             <TouchableOpacity
               style={[
@@ -237,7 +206,6 @@ export default function DriverRegisterScreen({
               )}
             </TouchableOpacity>
 
-            {/* Email */}
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
@@ -249,7 +217,6 @@ export default function DriverRegisterScreen({
               value={email}
             />
 
-            {/* Password */}
           <Text style={styles.label}>Password</Text>
 
           <View style={styles.passwordContainer}>
@@ -275,7 +242,6 @@ export default function DriverRegisterScreen({
             </Pressable>
           </View>
 
-            {/* Confirm Password */}
           <Text style={styles.label}>Confirm Password</Text>
 
           <View style={styles.passwordContainer}>
@@ -301,18 +267,14 @@ export default function DriverRegisterScreen({
             </Pressable>
           </View>
 
-            {/* Submit Button */}
-            <Animated.View style={{ transform: [{ scale }] }}>
-              <TouchableOpacity
-                style={styles.submitBtn}
-                onPress={handleSubmit}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.fontColor}>Submit Application</Text>
-              </TouchableOpacity>
-            </Animated.View>
+            <TouchableOpacity
+              style={styles.submitBtn}
+              onPress={handlesave}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.fontColor}>Submit</Text>
+            </TouchableOpacity>
 
-            {/* Navigation Switchers */}
             {onNavigateToLogin && (
               <TouchableOpacity
                 style={styles.switchBtn}
@@ -341,6 +303,7 @@ export default function DriverRegisterScreen({
     </ImageBackground>
   );
 }
+
 
 const styles = StyleSheet.create({
   image: {

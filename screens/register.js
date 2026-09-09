@@ -1,7 +1,6 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Alert,
-  Animated,
   ImageBackground,
   StyleSheet,
   Text,
@@ -16,9 +15,6 @@ export default function RegisterScreen({
   onNavigateToLogin,
   onNavigateToDriverRegister,
 }) {
-  // Animation
-  const scale = useRef(new Animated.Value(1)).current;
-
   // Input states
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -54,25 +50,6 @@ export default function RegisterScreen({
       "Registered!",
       "Your information has been registered successfully.",
     );
-  };
-
-  // Submit animation
-  const handleSubmit = () => {
-    Animated.sequence([
-      Animated.timing(scale, {
-        toValue: 0.85,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      handlesave();
-    });
   };
 
   return (
@@ -147,19 +124,13 @@ export default function RegisterScreen({
           </View>
 
           {/* Submit Button */}
-          <Animated.View
-            style={{
-              transform: [{ scale }],
-            }}
+          <TouchableOpacity
+            style={styles.submitBtn}
+            onPress={handlesave}
+            activeOpacity={0.8}
           >
-            <TouchableOpacity
-              style={styles.submitBtn}
-              onPress={handleSubmit}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.fontColor}>Submit</Text>
-            </TouchableOpacity>
-          </Animated.View>
+            <Text style={styles.fontColor}>Submit</Text>
+          </TouchableOpacity>
 
           {/* Switch to Login */}
           {onNavigateToLogin && (
