@@ -23,11 +23,9 @@ export default function DriverRegisterScreen({
   const [lastName, setLastName] = useState("");
   const [contactInfo, setContactInfo] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [license, setLicense] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -42,13 +40,7 @@ export default function DriverRegisterScreen({
     setBirthdate(formatted);
   };
 
-  const handlePickLicense = () => {
-    Alert.alert(
-      "License Attached",
-      "Driver's License copy (drivers_license_front.jpg) attached successfully.",
-    );
-    setLicense({ name: "drivers_license_front.jpg" });
-  };
+ 
 
   const handlesave = () => {
     if (!name.trim() || !lastName.trim()) {
@@ -68,14 +60,6 @@ export default function DriverRegisterScreen({
       Alert.alert(
         "Invalid Birthdate",
         "Please enter your birthdate in MM/DD/YYYY format.",
-      );
-      return;
-    }
-
-    if (!license) {
-      Alert.alert(
-        "Missing License",
-        "Please attach a copy of your driver's license.",
       );
       return;
     }
@@ -102,7 +86,6 @@ export default function DriverRegisterScreen({
       lastName,
       contactInfo,
       birthdate,
-      license: license.name,
       email,
       password,
     });
@@ -177,34 +160,6 @@ export default function DriverRegisterScreen({
               onChangeText={handleBirthdateChange}
               value={birthdate}
             />
-
-            <Text style={styles.label}>Copy of License</Text>
-            <TouchableOpacity
-              style={[
-                styles.licenseBox,
-                license ? styles.licenseBoxActive : null,
-              ]}
-              onPress={handlePickLicense}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.licenseIcon}>{license ? "✅" : "🪪"}</Text>
-              <View style={styles.licenseTextWrapper}>
-                <Text style={styles.licenseTitle}>
-                  {license ? "License Attached" : "Attach Driver’s License"}
-                </Text>
-                <Text style={styles.licenseSubtitle}>
-                  {license ? license.name : "Tap to upload front copy photo"}
-                </Text>
-              </View>
-              {license && (
-                <TouchableOpacity
-                  onPress={() => setLicense(null)}
-                  style={styles.licenseRemoveBtn}
-                >
-                  <Text style={styles.licenseRemoveText}>✕</Text>
-                </TouchableOpacity>
-              )}
-            </TouchableOpacity>
 
             <Text style={styles.label}>Email</Text>
             <TextInput
@@ -359,53 +314,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     color: "white",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
-  },
-
-  licenseBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderStyle: "dashed",
-    borderColor: "#38bdf8",
-    borderRadius: 6,
-    padding: 10,
-    backgroundColor: "rgba(56, 189, 248, 0.1)",
-  },
-
-  licenseBoxActive: {
-    borderColor: "#4ade80",
-    backgroundColor: "rgba(74, 222, 128, 0.15)",
-    borderStyle: "solid",
-  },
-
-  licenseIcon: {
-    fontSize: 24,
-    marginRight: 10,
-  },
-
-  licenseTextWrapper: {
-    flex: 1,
-  },
-
-  licenseTitle: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 13,
-  },
-
-  licenseSubtitle: {
-    color: "#cbd5e1",
-    fontSize: 11,
-  },
-
-  licenseRemoveBtn: {
-    padding: 6,
-  },
-
-  licenseRemoveText: {
-    color: "#f87171",
-    fontWeight: "bold",
-    fontSize: 16,
   },
 
   passwordContainer: {
