@@ -22,25 +22,11 @@ export default function DriverRegisterScreen({
   const [midName, setMidName] = useState("");
   const [lastName, setLastName] = useState("");
   const [contactInfo, setContactInfo] = useState("");
-  const [birthdate, setBirthdate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const handleBirthdateChange = (text) => {
-    const cleaned = text.replace(/[^0-9]/g, "");
-    let formatted = cleaned;
-    if (cleaned.length > 2 && cleaned.length <= 4) {
-      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
-    } else if (cleaned.length > 4) {
-      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4, 8)}`;
-    }
-    setBirthdate(formatted);
-  };
-
- 
 
   const handlesave = () => {
     if (!name.trim() || !lastName.trim()) {
@@ -53,14 +39,6 @@ export default function DriverRegisterScreen({
 
     if (!contactInfo.trim()) {
       Alert.alert("Missing Field", "Please enter your contact information.");
-      return;
-    }
-
-    if (!birthdate.trim() || birthdate.length < 10) {
-      Alert.alert(
-        "Invalid Birthdate",
-        "Please enter your birthdate in MM/DD/YYYY format.",
-      );
       return;
     }
 
@@ -78,17 +56,6 @@ export default function DriverRegisterScreen({
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
-
-    console.log({
-      role: "driver",
-      name,
-      midName,
-      lastName,
-      contactInfo,
-      birthdate,
-      email,
-      password,
-    });
 
     Alert.alert(
       "Driver Account Created!",
@@ -148,17 +115,6 @@ export default function DriverRegisterScreen({
               keyboardType="phone-pad"
               onChangeText={setContactInfo}
               value={contactInfo}
-            />
-
-            <Text style={styles.label}>Birthdate (MM/DD/YYYY)</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="MM/DD/YYYY"
-              placeholderTextColor="#ccc"
-              keyboardType="numeric"
-              maxLength={10}
-              onChangeText={handleBirthdateChange}
-              value={birthdate}
             />
 
             <Text style={styles.label}>Email</Text>
