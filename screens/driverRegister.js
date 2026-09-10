@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import {
-    Alert,
-    ImageBackground,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Pressable
+  Alert,
+  ImageBackground,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
+import Logo from "../components/logo";
+
 
 export default function DriverRegisterScreen({
   onNavigateToLogin,
   onNavigateToPassengerRegister,
 }) {
-
   const [name, setName] = useState("");
   const [midName, setMidName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -32,7 +32,7 @@ export default function DriverRegisterScreen({
     if (!name.trim() || !lastName.trim()) {
       Alert.alert(
         "Missing Field",
-        "Please enter your First Name and Last Name.",
+        "Please enter your First Name and Last Name."
       );
       return;
     }
@@ -59,7 +59,7 @@ export default function DriverRegisterScreen({
 
     Alert.alert(
       "Driver Account Created!",
-      `Welcome Driver ${name} ${lastName}! Your registration application has been submitted successfully.`,
+      `Welcome Driver ${name} ${lastName}! Your registration application has been submitted successfully.`
     );
   };
 
@@ -69,12 +69,13 @@ export default function DriverRegisterScreen({
       resizeMode="cover"
       style={styles.image}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.form}>
+            <Logo/>
             <Text style={styles.headerTitle}>Driver Registration</Text>
             <Text style={styles.headerSubtitle}>
               Create an account as Driver
@@ -128,55 +129,55 @@ export default function DriverRegisterScreen({
               value={email}
             />
 
-          <Text style={styles.label}>Password</Text>
+            <Text style={styles.label}>Password</Text>
 
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Password"
-              placeholderTextColor="#ccc"
-              onChangeText={setPassword}
-              value={password}
-              secureTextEntry={!showPassword}
-            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Password"
+                placeholderTextColor="#ccc"
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry={!showPassword}
+              />
 
-            <Pressable
-              style={styles.eyeButton}
-              onPress={() => setShowPassword(!showPassword)}
-              hitSlop={10}
-            >
-              {showPassword ? (
-                <Eye color="white" size={20} />
-              ) : (
-                <EyeOff color="white" size={20} />
-              )}
-            </Pressable>
-          </View>
+              <Pressable
+                style={styles.eyeButton}
+                onPress={() => setShowPassword(!showPassword)}
+                hitSlop={10}
+              >
+                {showPassword ? (
+                  <Eye color="white" size={20} />
+                ) : (
+                  <EyeOff color="white" size={20} />
+                )}
+              </Pressable>
+            </View>
 
-          <Text style={styles.label}>Confirm Password</Text>
+            <Text style={styles.label}>Confirm Password</Text>
 
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Confirm Password"
-              placeholderTextColor="#ccc"
-              onChangeText={setConfirmPassword}
-              value={confirmPassword}
-              secureTextEntry={!showConfirmPassword}
-            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Confirm Password"
+                placeholderTextColor="#ccc"
+                onChangeText={setConfirmPassword}
+                value={confirmPassword}
+                secureTextEntry={!showConfirmPassword}
+              />
 
-            <Pressable
-              style={styles.eyeButton}
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-              hitSlop={10}
-            >
-              {showConfirmPassword ? (
-                <Eye color="white" size={20} />
-              ) : (
-                <EyeOff color="white" size={20} />
-              )}
-            </Pressable>
-          </View>
+              <Pressable
+                style={styles.eyeButton}
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                hitSlop={10}
+              >
+                {showConfirmPassword ? (
+                  <Eye color="white" size={20} />
+                ) : (
+                  <EyeOff color="white" size={20} />
+                )}
+              </Pressable>
+            </View>
 
             <TouchableOpacity
               style={styles.submitBtn}
@@ -210,11 +211,10 @@ export default function DriverRegisterScreen({
             )}
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </ImageBackground>
   );
 }
-
 
 const styles = StyleSheet.create({
   image: {
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
-  safeArea: {
+  container: {
     flex: 1,
   },
 

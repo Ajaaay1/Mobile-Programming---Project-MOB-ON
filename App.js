@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import LoginScreen from './screens/login';
 import RegisterScreen from './screens/register';
@@ -11,7 +11,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('login');
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar barStyle="light-content" />
 
       {currentScreen === 'login' && (
@@ -64,7 +64,7 @@ export default function App() {
           onBackToLogin={() => setCurrentScreen('login')}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 

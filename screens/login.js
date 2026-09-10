@@ -10,6 +10,8 @@ import {
   View,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
+import Logo from "../components/logo";
+
 
 export default function LoginScreen({
   onNavigateToRegister,
@@ -43,9 +45,13 @@ export default function LoginScreen({
       resizeMode="cover"
       style={styles.image}
     >
+      
       <View style={styles.container}>
+        
         <View style={styles.form}>
-          <Text style={styles.headerTitle}>MOVE ON</Text>
+          <Logo/>
+          
+          <Text style={styles.headerTitle}>Login to MoveOn</Text>
 
           {/* Email */}
           <Text style={styles.label}>Email</Text>
@@ -163,11 +169,11 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
-    marginBottom: 5,
+    marginBottom: 3,
   },
 
   label: {

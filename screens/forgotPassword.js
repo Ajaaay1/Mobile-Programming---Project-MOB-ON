@@ -2,13 +2,14 @@ import { useState } from "react";
 import {
   Alert,
   ImageBackground,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+
 
 export default function ForgotPasswordScreen({ onBackToLogin }) {
   const [newPassword, setNewPassword] = useState("");
@@ -43,9 +44,8 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
       resizeMode="cover"
       style={styles.image}
     >
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.form}>
-
           <Text style={styles.title}>Forgot Password</Text>
 
           <Text style={styles.subtitle}>
@@ -91,9 +91,8 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
               ← Back to Login
             </Text>
           </TouchableOpacity>
-
         </View>
-      </SafeAreaView>
+      </View>
     </ImageBackground>
   );
 }
@@ -101,7 +100,7 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    justifyContent: "center",
+    justify: "center",
     alignItems: "center",
   },
 

@@ -10,6 +10,8 @@ import {
   Pressable
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
+import Logo from "../components/logo";
+
 
 export default function RegisterScreen({
   onNavigateToLogin,
@@ -58,8 +60,11 @@ export default function RegisterScreen({
       resizeMode="cover"
       style={styles.image}
     >
+      
       <View style={styles.container}>
         <View style={styles.form}>
+          <Logo/>
+          
           {/* Full Name */}
           <Text style={styles.label}>Full Name</Text>
 
