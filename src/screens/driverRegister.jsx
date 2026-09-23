@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Alert,
-  ImageBackground,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -10,14 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { Eye, EyeOff } from "lucide-react-native";
 import Logo from "../components/logo";
+import BackgroundWrap from "../components/backgroundWrap";
 
+export default function DriverRegisterScreen() {
+  const router = useRouter();
 
-export default function DriverRegisterScreen({
-  onNavigateToLogin,
-  onNavigateToPassengerRegister,
-}) {
   const [name, setName] = useState("");
   const [midName, setMidName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,7 +27,7 @@ export default function DriverRegisterScreen({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handlesave = () => {
+  const handleSave = () => {
     if (!name.trim() || !lastName.trim()) {
       Alert.alert(
         "Missing Field",
@@ -64,18 +63,14 @@ export default function DriverRegisterScreen({
   };
 
   return (
-    <ImageBackground
-      source={require("./mobon.jpg")}
-      resizeMode="cover"
-      style={styles.image}
-    >
+    <BackgroundWrap>
       <View style={styles.container}>
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.form}>
-            <Logo/>
+            <Logo />
             <Text style={styles.headerTitle}>Driver Registration</Text>
             <Text style={styles.headerSubtitle}>
               Create an account as Driver
@@ -130,7 +125,6 @@ export default function DriverRegisterScreen({
             />
 
             <Text style={styles.label}>Password</Text>
-
             <View style={styles.passwordContainer}>
               <TextInput
                 style={styles.passwordInput}
@@ -155,7 +149,6 @@ export default function DriverRegisterScreen({
             </View>
 
             <Text style={styles.label}>Confirm Password</Text>
-
             <View style={styles.passwordContainer}>
               <TextInput
                 style={styles.passwordInput}
@@ -181,58 +174,46 @@ export default function DriverRegisterScreen({
 
             <TouchableOpacity
               style={styles.submitBtn}
-              onPress={handlesave}
+              onPress={handleSave}
               activeOpacity={0.8}
             >
               <Text style={styles.fontColor}>Submit</Text>
             </TouchableOpacity>
 
-            {onNavigateToLogin && (
-              <TouchableOpacity
-                style={styles.switchBtn}
-                onPress={onNavigateToLogin}
-              >
-                <Text style={styles.switchText}>
-                  Already have a driver account?{" "}
-                  <Text style={styles.linkText}>Driver Log In</Text>
-                </Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={styles.switchBtn}
+              onPress={() => router.push("/driver/login")}
+            >
+              <Text style={styles.switchText}>
+                Already have a driver account?{" "}
+                <Text style={styles.linkText}>Driver Log In</Text>
+              </Text>
+            </TouchableOpacity>
 
-            {onNavigateToPassengerRegister && (
-              <TouchableOpacity
-                style={styles.secondarySwitchBtn}
-                onPress={onNavigateToPassengerRegister}
-              >
-                <Text style={styles.secondarySwitchText}>
-                  Register as Passenger instead
-                </Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={styles.secondarySwitchBtn}
+              onPress={() => router.push("/register")}
+            >
+              <Text style={styles.secondarySwitchText}>
+                Register as Passenger instead
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
-    </ImageBackground>
+    </BackgroundWrap>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-
   container: {
     flex: 1,
   },
-
   scrollContainer: {
     paddingVertical: 30,
     alignItems: "center",
     justifyContent: "center",
   },
-
   form: {
     backgroundColor: "rgba(30, 41, 59, 0.92)",
     padding: 22,
@@ -242,27 +223,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.2)",
   },
-
   headerTitle: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#ffffff",
     textAlign: "center",
   },
-
   headerSubtitle: {
     fontSize: 13,
     color: "#38bdf8",
     textAlign: "center",
     marginBottom: 6,
   },
-
   label: {
     color: "white",
     fontWeight: "bold",
     fontSize: 13,
   },
-
   input: {
     borderWidth: 1,
     borderColor: "white",
@@ -271,7 +248,6 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
-
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -280,59 +256,46 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
-
   passwordInput: {
     flex: 1,
     padding: 10,
     color: "white",
   },
-
   eyeButton: {
     paddingHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
   },
-
-  eyeText: {
-    fontSize: 20,
-  },
-
   fontColor: {
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 15,
   },
-
   submitBtn: {
     backgroundColor: "#0284c7",
     padding: 12,
     borderRadius: 6,
     marginTop: 8,
   },
-
   switchBtn: {
     marginTop: 8,
     alignItems: "center",
   },
-
   switchText: {
     color: "white",
     fontSize: 13,
     textAlign: "center",
   },
-
   linkText: {
     color: "#38bdf8",
     fontWeight: "bold",
     textDecorationLine: "underline",
   },
-
   secondarySwitchBtn: {
     marginTop: 4,
     alignItems: "center",
   },
-
   secondarySwitchText: {
     color: "#94a3b8",
     fontSize: 12,

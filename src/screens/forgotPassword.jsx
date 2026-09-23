@@ -1,17 +1,17 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
-  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { useRouter } from "expo-router";
+import BackgroundWrap from "../components/backgroundWrap";
 
-
-
-export default function ForgotPasswordScreen({ onBackToLogin }) {
+export default function ForgotPasswordScreen() {
+  const router = useRouter();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -32,18 +32,14 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
       [
         {
           text: "OK",
-          onPress: onBackToLogin,
+          onPress: () => router.push("/login"), // <-- Navigate to login
         },
       ]
     );
   };
 
   return (
-    <ImageBackground
-      source={require("./mobon.jpg")}
-      resizeMode="cover"
-      style={styles.image}
-    >
+    <BackgroundWrap>
       <View style={styles.container}>
         <View style={styles.form}>
           <Text style={styles.title}>Forgot Password</Text>
@@ -85,7 +81,7 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
 
           <TouchableOpacity
             style={styles.backBtn}
-            onPress={onBackToLogin}
+            onPress={() => router.push("/login")} // <-- Change "/" to "/login" (or router.back())
           >
             <Text style={styles.backText}>
               ← Back to Login
@@ -93,24 +89,17 @@ export default function ForgotPasswordScreen({ onBackToLogin }) {
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+    </BackgroundWrap>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    justify: "center",
-    alignItems: "center",
-  },
-
   container: {
     flex: 1,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
-
   form: {
     backgroundColor: "rgba(30, 41, 59, 0.92)",
     padding: 22,
@@ -119,7 +108,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.2)",
   },
-
   title: {
     color: "#ffffff",
     fontSize: 24,
@@ -127,14 +115,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
   },
-
   subtitle: {
     color: "#cbd5e1",
     fontSize: 13,
     textAlign: "center",
     marginBottom: 18,
   },
-
   label: {
     color: "#ffffff",
     fontWeight: "bold",
@@ -142,7 +128,6 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     marginTop: 8,
   },
-
   input: {
     borderWidth: 1,
     borderColor: "#ffffff",
@@ -151,26 +136,22 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
-
   changeBtn: {
     backgroundColor: "#0284c7",
     padding: 12,
     borderRadius: 6,
     marginTop: 20,
   },
-
   buttonText: {
     color: "#ffffff",
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 15,
   },
-
   backBtn: {
     marginTop: 16,
     alignItems: "center",
   },
-
   backText: {
     color: "#38bdf8",
     fontSize: 14,

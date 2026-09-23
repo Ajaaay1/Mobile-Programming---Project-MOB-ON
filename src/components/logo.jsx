@@ -3,7 +3,7 @@ import { Image, StyleSheet } from "react-native";
 export default function Logo({ size = 120, style }) {
   return (
     <Image
-      source={require("../assets/logo.png")}
+      source={require("../../assets/logo.jpg")}
       style={[styles.logo, { width: size, height: size }, style]}
       resizeMode="contain"
     />
@@ -13,6 +13,6 @@ export default function Logo({ size = 120, style }) {
 const styles = StyleSheet.create({
   logo: {
     alignSelf: "center",
-    marginBottom: 0, 
+    marginBottom: 0,
   },
 });

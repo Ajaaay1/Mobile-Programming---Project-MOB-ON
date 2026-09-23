@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "MOVEON",
-    "slug": "snack-bb152488-affd-4e21-b341-f306f7fd2462",
+    "slug": "MOVEON",
+    "scheme": "moveon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +24,12 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
+      "bundler": "metro",
+      "output": "static",
       "favicon": "./assets/icon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
