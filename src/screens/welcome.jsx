@@ -124,3 +124,11 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 });
+
+<TouchableOpacity
+  style={styles.secondaryBtn}
+  onPress={() => router.push("/items")}
+  activeOpacity={0.85}
+>
+  <Text style={styles.secondaryBtnText}>Browse Rides</Text>
+</TouchableOpacity>
