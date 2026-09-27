@@ -14,6 +14,10 @@ export default function LoginScreen() {
       Alert.alert("Missing Field", "Please fill in all fields.");
       return;
     }
+
+    console.log("Email:", email);
+    console.log("Password:", password);
+    
     Alert.alert("Log in Successfully!", "Welcome back.", [
       {
         text: "OK",

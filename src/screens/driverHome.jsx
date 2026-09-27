@@ -1,47 +1,111 @@
+
 import React from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+} from "react-native";
+
 import { useRouter } from "expo-router";
-import BackgroundWrap from "../../components/backgroundWrap";
-import Logo from "../../components/logo";
-import DRIVER_RIDES from "../../data/driverRides";
+import { Ionicons } from "@expo/vector-icons";
+
+import BackgroundWrap from "../components/backgroundWrap";
+import Logo from "../components/logo";
+import DRIVER_RIDES from "../data/driverRides";
 
 export default function DriverHomeScreen() {
   const router = useRouter();
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Log Out",
+      "Are you sure you want to log out?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Log Out",
+          style: "destructive",
+          onPress: () => router.replace("/driver/login"),
+        },
+      ]
+    );
+  };
 
   const renderRide = ({ item }) => (
     <TouchableOpacity
       style={styles.rideCard}
       activeOpacity={0.8}
-      onPress={() => router.push(`/driver/details/${item.id}`)}
+      onPress={() => {
+        console.log("Sending ID:", item.id);
+
+        router.push({
+          pathname: "/details",
+          params: {
+            id: String(item.id),
+          },
+        });
+      }}
     >
       <View style={styles.rideText}>
-        <Text style={styles.passenger}>{item.passenger}</Text>
+        <Text style={styles.passenger}>
+          {item.passenger}
+        </Text>
+
         <Text style={styles.route}>
           {item.pickup} → {item.destination}
         </Text>
       </View>
-      <Text style={styles.fare}>{item.fare}</Text>
+
+      <Text style={styles.fare}>
+        {item.fare}
+      </Text>
     </TouchableOpacity>
   );
 
   return (
     <BackgroundWrap>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Logo size={70} />
-          <Text style={styles.title}>Driver Home</Text>
-          <Text style={styles.subtitle}>Select a ride request to view its details.</Text>
+
+        {/* Top Header with Logout Icon Button */}
+        <View style={styles.topBar}>
+          <View style={{ width: 32 }} />
+
+          <Logo size={60} />
+
+          <TouchableOpacity
+            style={styles.logoutBtn}
+            onPress={handleLogout}
+          >
+            <Ionicons
+              name="log-out-outline"
+              size={26}
+              color="#ef4444"
+            />
+          </TouchableOpacity>
         </View>
 
-        <Text style={styles.sectionTitle}>Ride Requests</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>Driver Home</Text>
+          <Text style={styles.subtitle}>
+            Select a ride request to view its details.
+          </Text>
+        </View>
+
+        <Text style={styles.sectionTitle}>
+          Ride Requests
+        </Text>
 
         <FlatList
           data={DRIVER_RIDES}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => String(item.id)}
           renderItem={renderRide}
           contentContainerStyle={styles.list}
           showsVerticalScrollIndicator={false}
         />
+
       </View>
     </BackgroundWrap>
   );
@@ -53,6 +117,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 36,
     paddingBottom: 24,
+  },
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  logoutBtn: {
+    padding: 6,
   },
   header: {
     alignItems: "center",
